@@ -8,28 +8,10 @@ function App() {
   const [input, setInput] = useState(""); // User's input
   const [chatHistory, setChatHistory] = useState([]); // Chat history
   const chatWindowRef = useRef(null); // Ref for the chat window
-  const headerRef = useRef(null); // Ref for header (to track height)
-  const [headerHeight, setHeaderHeight] = useState(60); // Dynamic header height
 
   // Add a default message when the component mounts
   useEffect(() => {
-    setChatHistory([{ sender: "bot", message: "Hello, I am Enchantress, Your personal AI-ChatBot. You can ask me anything..." }]);
-  }, []);
-
-  // Detect header height changes and adjust chat window margin
-  useEffect(() => {
-    const updateHeaderHeight = () => {
-      if (headerRef.current) {
-        setHeaderHeight(headerRef.current.offsetHeight);
-      }
-    };
-
-    updateHeaderHeight();
-    window.addEventListener("resize", updateHeaderHeight);
-
-    return () => {
-      window.removeEventListener("resize", updateHeaderHeight);
-    };
+    setChatHistory([{ sender: "bot", message: "Hello, I am Enchantress, Your personal AI-ChatBot, You can ask me anything..." }]);
   }, []);
 
   // Scroll to the bottom of the chat window whenever chatHistory changes
@@ -87,7 +69,6 @@ function App() {
     >
       {/* Header */}
       <div
-        ref={headerRef}
         className="text-center py-3"
         style={{
           background: "radial-gradient(circle,  #092744, black)",
@@ -97,13 +78,17 @@ function App() {
           top: 0,
           left: 0,
           width: "100%",
+          height: "70px", // Fixed height to match the input section
           zIndex: 1000,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <img
           src="Ench.png"
           alt="Enchantress"
-          style={{ maxWidth: "20%", height: "auto" }}
+          style={{ maxWidth: "20%", height: "auto", maxHeight: "50px" }} // Constrain image size
         />
       </div>
 
@@ -112,22 +97,17 @@ function App() {
         ref={chatWindowRef}
         className="flex-grow-1 overflow-auto p-3"
         style={{
-          marginTop: `${headerHeight + 10}px`, // Dynamic margin based on header height
-          marginBottom: "80px", // Adjust this value to match the input section height
+          marginTop: "60px", // Fixed margin to match header height
+          marginBottom: "80px", // Fixed margin to match input section height
+          marginTop: "80px", // Fixed margin to match input section height
           paddingBottom: "20px", // Add padding to avoid overlap with the input section
         }}
       >
         {chatHistory.map((chat, index) => (
-          <div key={index} className={`d-flex ${chat.sender === "user" ? "justify-content-end" : "justify-content-start"} mb-3`}>
+          <div key={index} className={`d-flex ${chat.sender === "user" ? "justify-content-end" : "justify-content-start"} mb-0`}>
             <div
               className={`p-2 rounded-0 ${chat.sender === "user" ? "text-white" : "bg-dark text-light"}`}
-              style={{ 
-                backgroundColor: "#092744", 
-                border: "1px solid white", 
-                maxWidth: "80%", 
-                boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)", 
-                borderRadius: "300px" 
-              }}
+              style={{ backgroundColor: "#092744", border: "1px solid white", maxWidth: "80%", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)", borderRadius: "300px" }}
             >
               {/* Use ReactMarkdown to render the message */}
               {chat.sender === "bot" ? (
@@ -151,10 +131,14 @@ function App() {
           bottom: 0,
           left: 0,
           width: "100%",
+          height: "70px", // Fixed height to match the header
           zIndex: 1000,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <div className="input-group">
+        <div className="input-group" style={{ width: "100%" }}>
           <input
             type="text"
             className="form-control"
@@ -163,12 +147,7 @@ function App() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           />
-          <button 
-            className="bg-dark text-white border-white" 
-            onClick={sendMessage} 
-            disabled={!input.trim()} 
-            style={{ backgroundColor: "#092744" }}
-          >
+          <button className="bg-dark text-white border-white" onClick={sendMessage} disabled={!input.trim()} style={{ backgroundColor: "#092744" }}>
             Send
           </button>
         </div>
