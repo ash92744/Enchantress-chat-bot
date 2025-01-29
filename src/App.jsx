@@ -2,24 +2,26 @@ import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown'; // Import react-markdown
 
 function App() {
   const [input, setInput] = useState(""); // User's input
   const [chatHistory, setChatHistory] = useState([]); // Chat history
-  const chatWindowRef = useRef(null); // Ref for the chat window
+  const chatWindowRef = useRef(null); // Ref for chat window
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight); // Track viewport height
 
   // Add a default message when the component mounts
   useEffect(() => {
     setChatHistory([{ sender: "bot", message: "Hello, I am Enchantress, Your personal AI-ChatBot, You can ask me anything..." }]);
-  }, []);
 
-  // Scroll to the bottom of the chat window when chat history updates
-  useEffect(() => {
-    if (chatWindowRef.current) {
-      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-    }
-  }, [chatHistory]);
+    // Adjust chat height when keyboard opens/closes
+    const handleResize = () => {
+      setViewportHeight(window.visualViewport?.height || window.innerHeight);
+    };
+
+    window.visualViewport?.addEventListener("resize", handleResize);
+    return () => window.visualViewport?.removeEventListener("resize", handleResize);
+  }, []);
 
   async function sendMessage() {
     if (input.trim() === "") return;
@@ -59,30 +61,18 @@ function App() {
         position: "fixed",
         top: 0,
         left: 0,
-        height: "100vh",
         width: "100vw",
-        margin: 0,
-        padding: 0,
+        height: viewportHeight, // Adjust height dynamically for mobile keyboard
         overflow: "hidden",
-        background: "radial-gradient(circle, white, grey)", // Gradient background
+        background: "radial-gradient(circle, white, grey)",
       }}
     >
-      {/* Header */}
-      <div
-        className="text-center py-2"
-        style={{
-          background: "radial-gradient(circle,  #092744, black)",
-          borderBottom: "1px solid white",
-          boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
-          position: "sticky",
-          top: 0,
-          zIndex: 1000, // Ensure the header stays on top
-        }}
-      >
+       {/* Header */}
+       <div className="text-center py-3" style={{ background: "radial-gradient(circle,  #092744, black)", border: "1px solid white", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)"}}>
         <img
           src="Ench.png"
           alt="Enchantress"
-          style={{ maxWidth: "100px", height: "auto" }} // Adjusted for mobile
+          style={{ maxWidth: "20%", height: "auto" }}
         />
       </div>
 
@@ -91,7 +81,8 @@ function App() {
         ref={chatWindowRef}
         className="flex-grow-1 overflow-auto p-3"
         style={{
-          paddingBottom: "80px", // Add padding to avoid overlap with input section
+          marginTop: "20px", // Push below the fixed header
+          marginBottom: "60px", // Prevent overlap with input box
         }}
       >
         {chatHistory.map((chat, index) => (
@@ -102,7 +93,7 @@ function App() {
                 backgroundColor: "#092744",
                 border: "1px solid white",
                 maxWidth: "75%",
-                boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
+                boxShadow: "5px 5px 10px rgba(110, 110, 110, 0.15)",
                 borderRadius: "300px",
               }}
             >
@@ -119,16 +110,17 @@ function App() {
 
       {/* Input Section */}
       <div
-        className="border-top p-2"
+        className="border-top p-3"
         style={{
-          background: "radial-gradient(circle,  #092744, black)",
-          borderTop: "1px solid white",
-          boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
+          background: "radial-gradient(circle, #092744, black)",
+          border: "1px solid white",
+          boxShadow: "5px 5px 10px rgba(110, 110, 110, 0.15)",
           position: "fixed",
           bottom: 0,
           left: 0,
-          right: 0,
-          zIndex: 1000, // Ensure it stays on top
+          width: "100%",
+          zIndex: 1000,
+          paddingBottom: "env(safe-area-inset-bottom)", // Prevent overlap on iOS
         }}
       >
         <div className="input-group">
@@ -139,6 +131,9 @@ function App() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            style={{
+              height: "40px",
+            }}
           />
           <button
             className="bg-dark text-white border-white"
