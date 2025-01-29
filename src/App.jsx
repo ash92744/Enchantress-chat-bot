@@ -95,7 +95,7 @@ function App() {
         style={{
           marginTop: "60px", // Adjust this value to match the header height
           marginBottom: "80px", // Adjust this value to match the input section height
-          paddingBottom: "20px", // Add padding to avoid overlap with the input section
+          paddingBottom: "30px", // Add padding to avoid overlap with the input section
         }}
       >
         {chatHistory.map((chat, index) => (
