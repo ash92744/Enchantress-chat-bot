@@ -109,20 +109,16 @@ function App() {
       </div>
 
       {/* Input Section */}
-      <div
-        className="border-top p-3"
-        style={{
-          background: "radial-gradient(circle, #092744, black)",
-          border: "1px solid white",
-          boxShadow: "5px 5px 10px rgba(110, 110, 110, 0.15)",
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          zIndex: 1000,
-          paddingBottom: "env(safe-area-inset-bottom)", // Prevent overlap on iOS
-        }}
-      >
+      <div className="border-top p-2" style={{ 
+        background: "radial-gradient(circle,  #092744, black)", 
+        borderTop: "1px solid white", 
+        boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000 // Ensure it stays on top
+      }}>
         <div className="input-group">
           <input
             type="text"
@@ -131,9 +127,6 @@ function App() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            style={{
-              height: "40px",
-            }}
           />
           <button
             className="bg-dark text-white border-white"
