@@ -69,7 +69,7 @@ function App() {
     >
       {/* Header */}
       <div
-        className="text-center py-3"
+        className="text-center py-2"
         style={{
           background: "radial-gradient(circle,  #092744, black)",
           border: "1px solid white",
@@ -88,7 +88,7 @@ function App() {
         <img
           src="Ench.png"
           alt="Enchantress"
-          style={{ maxWidth: "20%", height: "auto", maxHeight: "50px" }} // Constrain image size
+          style={{ maxWidth: "20%", height: "auto", maxHeight: "55px" }} // Constrain image size
         />
       </div>
 
@@ -98,8 +98,8 @@ function App() {
         className="flex-grow-1 overflow-auto p-3"
         style={{
           marginTop: "60px", // Fixed margin to match header height
-          marginBottom: "80px", // Fixed margin to match input section height
-          marginTop: "80px", // Fixed margin to match input section height
+          marginBottom: "60px", // Fixed margin to match input section height
+          marginTop: "60px", // Fixed margin to match input section height
           paddingBottom: "20px", // Add padding to avoid overlap with the input section
         }}
       >
@@ -138,7 +138,7 @@ function App() {
           justifyContent: "center",
         }}
       >
-        <div className="input-group" style={{ width: "100%" }}>
+        <div className="input-group" style={{ width: "100%", }}>
           <input
             type="text"
             className="form-control"
