@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,11 +7,19 @@ import ReactMarkdown from 'react-markdown'; // Import react-markdown
 function App() {
   const [input, setInput] = useState(""); // User's input
   const [chatHistory, setChatHistory] = useState([]); // Chat history
+  const chatWindowRef = useRef(null); // Ref for the chat window
 
   // Add a default message when the component mounts
   useEffect(() => {
     setChatHistory([{ sender: "bot", message: "Hello, I am Enchantress, Your personal AI-ChatBot, You can ask me anything..." }]);
   }, []);
+
+  // Scroll to the bottom of the chat window whenever chatHistory changes
+  useEffect(() => {
+    if (chatWindowRef.current) {
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+    }
+  }, [chatHistory]);
 
   async function sendMessage() {
     if (input.trim() === "") return;
@@ -82,6 +90,7 @@ function App() {
 
       {/* Chat Window */}
       <div
+        ref={chatWindowRef}
         className="flex-grow-1 overflow-auto p-3"
         style={{
           marginTop: "80px", // Adjust this value to match the header height
