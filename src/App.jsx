@@ -1,17 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ReactMarkdown from 'react-markdown'; // Import react-markdown
+import ReactMarkdown from 'react-markdown';
 
 function App() {
   const [input, setInput] = useState(""); // User's input
   const [chatHistory, setChatHistory] = useState([]); // Chat history
+  const chatWindowRef = useRef(null); // Ref for the chat window
 
   // Add a default message when the component mounts
   useEffect(() => {
     setChatHistory([{ sender: "bot", message: "Hello, I am Enchantress, Your personal AI-ChatBot, You can ask me anything..." }]);
   }, []);
+
+  // Scroll to the bottom of the chat window when chat history updates
+  useEffect(() => {
+    if (chatWindowRef.current) {
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+    }
+  }, [chatHistory]);
 
   async function sendMessage() {
     if (input.trim() === "") return;
@@ -60,7 +68,17 @@ function App() {
       }}
     >
       {/* Header */}
-      <div className="text-center py-2" style={{ background: "radial-gradient(circle,  #092744, black)", borderBottom: "1px solid white", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)"}}>
+      <div
+        className="text-center py-2"
+        style={{
+          background: "radial-gradient(circle,  #092744, black)",
+          borderBottom: "1px solid white",
+          boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
+          position: "sticky",
+          top: 0,
+          zIndex: 1000, // Ensure the header stays on top
+        }}
+      >
         <img
           src="Ench.png"
           alt="Enchantress"
@@ -69,12 +87,24 @@ function App() {
       </div>
 
       {/* Chat Window */}
-      <div className="flex-grow-1 overflow-auto p-3" style={{ paddingBottom: "60px" }}> {/* Added padding to avoid overlap with input section */}
+      <div
+        ref={chatWindowRef}
+        className="flex-grow-1 overflow-auto p-3"
+        style={{
+          paddingBottom: "80px", // Add padding to avoid overlap with input section
+        }}
+      >
         {chatHistory.map((chat, index) => (
           <div key={index} className={`d-flex ${chat.sender === "user" ? "justify-content-end" : "justify-content-start"} mb-3`}>
             <div
               className={`p-2 rounded-0 ${chat.sender === "user" ? "text-white" : "bg-dark text-light"}`}
-              style={{ backgroundColor: "#092744", border: "1px solid white", maxWidth: "75%", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)", borderRadius: "300px" }}
+              style={{
+                backgroundColor: "#092744",
+                border: "1px solid white",
+                maxWidth: "75%",
+                boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
+                borderRadius: "300px",
+              }}
             >
               {/* Use ReactMarkdown to render the message */}
               {chat.sender === "bot" ? (
@@ -88,16 +118,19 @@ function App() {
       </div>
 
       {/* Input Section */}
-      <div className="border-top p-2" style={{ 
-        background: "radial-gradient(circle,  #092744, black)", 
-        borderTop: "1px solid white", 
-        boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000 // Ensure it stays on top
-      }}>
+      <div
+        className="border-top p-2"
+        style={{
+          background: "radial-gradient(circle,  #092744, black)",
+          borderTop: "1px solid white",
+          boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000, // Ensure it stays on top
+        }}
+      >
         <div className="input-group">
           <input
             type="text"
@@ -107,7 +140,12 @@ function App() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           />
-          <button className="bg-dark text-white border-white" onClick={sendMessage} disabled={!input.trim()} style={{ backgroundColor: "#092744" }}>
+          <button
+            className="bg-dark text-white border-white"
+            onClick={sendMessage}
+            disabled={!input.trim()}
+            style={{ backgroundColor: "#092744" }}
+          >
             Send
           </button>
         </div>
