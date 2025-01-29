@@ -93,7 +93,7 @@ function App() {
         ref={chatWindowRef}
         className="flex-grow-1 overflow-auto p-3"
         style={{
-          marginTop: "80px", // Adjust this value to match the header height
+          marginTop: "60px", // Adjust this value to match the header height
           marginBottom: "80px", // Adjust this value to match the input section height
           paddingBottom: "20px", // Add padding to avoid overlap with the input section
         }}
@@ -102,7 +102,7 @@ function App() {
           <div key={index} className={`d-flex ${chat.sender === "user" ? "justify-content-end" : "justify-content-start"} mb-3`}>
             <div
               className={`p-2 rounded-0 ${chat.sender === "user" ? "text-white" : "bg-dark text-light"}`}
-              style={{ backgroundColor: "#092744", border: "1px solid white", maxWidth: "75%", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)", borderRadius: "300px" }}
+              style={{ backgroundColor: "#092744", border: "1px solid white", maxWidth: "80%", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)", borderRadius: "300px" }}
             >
               {/* Use ReactMarkdown to render the message */}
               {chat.sender === "bot" ? (
