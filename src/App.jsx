@@ -60,7 +60,7 @@ function App() {
       }}
     >
       {/* Header */}
-      <div className="text-center py-3" style={{ background: "radial-gradient(circle,  #092744, black)", border: "1px solid white", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)", flexShrink: 0 }}>
+      <div className="text-center py-3" style={{ background: "radial-gradient(circle,  #092744, black)", border: "1px solid white", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)" }}>
         <img
           src="Ench.png"
           alt="Enchantress"
@@ -69,7 +69,7 @@ function App() {
       </div>
 
       {/* Chat Window */}
-      <div className="flex-grow-1 overflow-auto p-3" style={{ flexShrink: 1 }}>
+      <div className="flex-grow-1 overflow-auto p-3">
         {chatHistory.map((chat, index) => (
           <div key={index} className={`d-flex ${chat.sender === "user" ? "justify-content-end" : "justify-content-start"} mb-3`}>
             <div
@@ -88,7 +88,17 @@ function App() {
       </div>
 
       {/* Input Section */}
-      <div className="border-top p-3" style={{ background: "radial-gradient(circle,  #092744, black)", border: "1px solid white", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)", flexShrink: 0 }}>
+      <div
+        className="border-top p-3"
+        style={{
+          background: "radial-gradient(circle,  #092744, black)",
+          border: "1px solid white",
+          boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
+          position: "sticky",
+          bottom: 0,
+          width: "100%",
+        }}
+      >
         <div className="input-group">
           <input
             type="text"
