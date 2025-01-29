@@ -78,7 +78,7 @@ function App() {
           top: 0,
           left: 0,
           width: "100%",
-          height: "70px", // Fixed height to match the input section
+          height: "60px", // Fixed height to match the input section
           zIndex: 1000,
           display: "flex",
           alignItems: "center",
@@ -104,7 +104,7 @@ function App() {
         }}
       >
         {chatHistory.map((chat, index) => (
-          <div key={index} className={`d-flex ${chat.sender === "user" ? "justify-content-end" : "justify-content-start"} mb-0`}>
+          <div key={index} className={`d-flex ${chat.sender === "user" ? "justify-content-end" : "justify-content-start"} mb-3`}>
             <div
               className={`p-2 rounded-0 ${chat.sender === "user" ? "text-white" : "bg-dark text-light"}`}
               style={{ backgroundColor: "#092744", border: "1px solid white", maxWidth: "80%", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)", borderRadius: "300px" }}
@@ -131,7 +131,7 @@ function App() {
           bottom: 0,
           left: 0,
           width: "100%",
-          height: "70px", // Fixed height to match the header
+          height: "60px", // Fixed height to match the header
           zIndex: 1000,
           display: "flex",
           alignItems: "center",
