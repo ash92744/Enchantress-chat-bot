@@ -8,7 +8,8 @@ function App() {
   const [input, setInput] = useState(""); // User's input
   const [chatHistory, setChatHistory] = useState([]); // Chat history
   const chatWindowRef = useRef(null); // Ref for chat window
-  const [viewportHeight, setViewportHeight] = useState(window.innerHeight); // Track viewport height
+  const inputRef = useRef(null);
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 
   // Add a default message when the component mounts
   useEffect(() => {
@@ -17,6 +18,9 @@ function App() {
     // Adjust chat height when keyboard opens/closes
     const handleResize = () => {
       setViewportHeight(window.visualViewport?.height || window.innerHeight);
+      if (chatWindowRef.current) {
+        chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+      }
     };
 
     window.visualViewport?.addEventListener("resize", handleResize);
@@ -62,13 +66,25 @@ function App() {
         top: 0,
         left: 0,
         width: "100vw",
-        height: viewportHeight, // Adjust height dynamically for mobile keyboard
+        height: viewportHeight, // Adjust height dynamically to prevent white space
         overflow: "hidden",
         background: "radial-gradient(circle, white, grey)",
       }}
     >
-       {/* Header */}
-       <div className="text-center py-3" style={{ background: "radial-gradient(circle,  #092744, black)", border: "1px solid white", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)"}}>
+      {/* Header */}
+      <div
+        className="text-center py-3"
+        style={{
+          background: "radial-gradient(circle, #092744, black)",
+          border: "1px solid white",
+          boxShadow: "5px 5px 10px rgba(110, 110, 110, 0.15)",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          zIndex: 1000,
+        }}
+      >
         <img
           src="Ench.png"
           alt="Enchantress"
@@ -81,8 +97,9 @@ function App() {
         ref={chatWindowRef}
         className="flex-grow-1 overflow-auto p-3"
         style={{
-          marginTop: "20px", // Push below the fixed header
+          marginTop: "60px", // Push below the fixed header
           marginBottom: "60px", // Prevent overlap with input box
+          height: `calc(${viewportHeight}px - 120px)`, // Dynamic height
         }}
       >
         {chatHistory.map((chat, index) => (
@@ -109,24 +126,39 @@ function App() {
       </div>
 
       {/* Input Section */}
-      <div className="border-top p-2" style={{ 
-        background: "radial-gradient(circle,  #092744, black)", 
-        borderTop: "1px solid white", 
-        boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000 // Ensure it stays on top
-      }}>
+      <div
+        className="border-top p-3"
+        style={{
+          background: "radial-gradient(circle, #092744, black)",
+          border: "1px solid white",
+          boxShadow: "5px 5px 10px rgba(110, 110, 110, 0.15)",
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          zIndex: 1000,
+          paddingBottom: "env(safe-area-inset-bottom)", // Prevent overlap on iOS
+        }}
+      >
         <div className="input-group">
           <input
             type="text"
+            ref={inputRef}
             className="form-control"
             placeholder="Type your message..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            onFocus={() => {
+              setTimeout(() => {
+                if (chatWindowRef.current) {
+                  chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+                }
+              }, 300);
+            }}
+            style={{
+              height: "40px",
+            }}
           />
           <button
             className="bg-dark text-white border-white"
