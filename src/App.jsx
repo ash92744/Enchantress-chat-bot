@@ -60,21 +60,21 @@ function App() {
       }}
     >
       {/* Header */}
-      <div className="text-center py-3" style={{ background: "radial-gradient(circle,  #092744, black)", border: "1px solid white", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)"}}>
+      <div className="text-center py-2" style={{ background: "radial-gradient(circle,  #092744, black)", borderBottom: "1px solid white", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)"}}>
         <img
           src="Ench.png"
           alt="Enchantress"
-          style={{ maxWidth: "20%", height: "auto" }}
+          style={{ maxWidth: "100px", height: "auto" }} // Adjusted for mobile
         />
       </div>
 
       {/* Chat Window */}
-      <div className="flex-grow-1 overflow-auto p-3">
+      <div className="flex-grow-1 overflow-auto p-3" style={{ paddingBottom: "60px" }}> {/* Added padding to avoid overlap with input section */}
         {chatHistory.map((chat, index) => (
           <div key={index} className={`d-flex ${chat.sender === "user" ? "justify-content-end" : "justify-content-start"} mb-3`}>
             <div
               className={`p-2 rounded-0 ${chat.sender === "user" ? "text-white" : "bg-dark text-light"}`}
-              style={{ backgroundColor: "#092744", border: "1px solid white", maxWidth: "75%", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",borderRadius:"300px" }}
+              style={{ backgroundColor: "#092744", border: "1px solid white", maxWidth: "75%", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)", borderRadius: "300px" }}
             >
               {/* Use ReactMarkdown to render the message */}
               {chat.sender === "bot" ? (
@@ -88,7 +88,16 @@ function App() {
       </div>
 
       {/* Input Section */}
-      <div className="border-top p-3" style={{ background: "radial-gradient(circle,  #092744, black)", border: "1px solid white", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)" }}>
+      <div className="border-top p-2" style={{ 
+        background: "radial-gradient(circle,  #092744, black)", 
+        borderTop: "1px solid white", 
+        boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000 // Ensure it stays on top
+      }}>
         <div className="input-group">
           <input
             type="text"
