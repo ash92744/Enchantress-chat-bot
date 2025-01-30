@@ -64,7 +64,7 @@ function App() {
         margin: 0,
         padding: 0,
         overflow: "hidden",
-        background: "radial-gradient(circle, white, grey)", // Gradient background
+        background: "white"
       }}
     >
       {/* Header */}
@@ -83,6 +83,7 @@ function App() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          borderRadius:"10px"
         }}
       >
         <img
@@ -106,8 +107,8 @@ function App() {
         {chatHistory.map((chat, index) => (
           <div key={index} className={`d-flex ${chat.sender === "user" ? "justify-content-end" : "justify-content-start"} mb-3`}>
             <div
-              className={`p-2 rounded-0 ${chat.sender === "user" ? "text-white" : "bg-dark text-light"}`}
-              style={{ backgroundColor: "#092744", border: "1px solid white", maxWidth: "80%", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)", borderRadius: "300px" }}
+              className={`p-2 rounded-3 ${chat.sender === "user" ? "text-white" : "bg-dark text-light"}`}
+              style={{ backgroundColor: "#092744", border: "1px solid white", maxWidth: "80%", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",}}
             >
               {/* Use ReactMarkdown to render the message */}
               {chat.sender === "bot" ? (
@@ -136,9 +137,10 @@ function App() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          borderRadius:"10px" 
         }}
       >
-        <div className="input-group" style={{ width: "100%", }}>
+        <div className="input-group" style={{ width: "100%",borderRadius:"10px" }}>
           <input
             type="text"
             className="form-control"
@@ -146,8 +148,9 @@ function App() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            style={{borderRadius:"10px" }}
           />
-          <button className="bg-dark text-white border-white" onClick={sendMessage} disabled={!input.trim()} style={{ backgroundColor: "#092744" }}>
+          <button className="bg-dark text-white border-white" onClick={sendMessage} disabled={!input.trim()} style={{ backgroundColor: "#092744",borderRadius:"10px",marginLeft:"15px" }}>
             Send
           </button>
         </div>
