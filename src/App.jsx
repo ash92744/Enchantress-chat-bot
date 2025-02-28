@@ -64,16 +64,16 @@ function App() {
         margin: 0,
         padding: 0,
         overflow: "hidden",
-        background: "white"
+        background: "linear-gradient(135deg, purple, violet, purple)"
       }}
     >
       {/* Header */}
       <div
         className="text-center py-2"
         style={{
-          background: "radial-gradient(circle,  #092744, black)",
-          border: "1px solid white",
-          boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
+          borderBottom: "1px solid white",
+          background: "purple",
+          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
           position: "fixed",
           top: 0,
           left: 0,
@@ -107,7 +107,7 @@ function App() {
           <div key={index} className={`d-flex ${chat.sender === "user" ? "justify-content-end" : "justify-content-start"} mb-3`}>
             <div
               className={`p-2 rounded-0 ${chat.sender === "user" ? "text-white" : "bg-dark text-light"}`}
-              style={{ backgroundColor: "#092744", border: "1px solid white", maxWidth: "80%", boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",}}
+              style={{ backgroundColor: "purple", border: "1px solid white", maxWidth: "80%", borderRadius:"10px"}}
             >
               {/* Use ReactMarkdown to render the message */}
               {chat.sender === "bot" ? (
@@ -124,9 +124,9 @@ function App() {
       <div
         className="border-top p-3"
         style={{
-          background: "radial-gradient(circle,  #092744, black)",
+          background: "purple",
           border: "1px solid white",
-          boxShadow: "5px 5px 10px rgba(110, 110, 110, 110.15)",
+          boxShadow: "5px -5px 10px rgba(110, 110, 110, 0.15)",
           position: "fixed",
           bottom: 0,
           left: 0,
